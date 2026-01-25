@@ -5,6 +5,11 @@
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lean-nvim = {
+      url = "github:Julian/lean.nvim";
+      flake = false;
+    };
+
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
@@ -36,7 +41,7 @@
               (nvf.lib.neovimConfiguration {
                 inherit pkgs;
                 modules = [
-                  ./neovim.nix
+                  (import ./neovim.nix { inherit inputs pkgs; })
                 ];
               }).neovim;
             devShells.default = pkgs.mkShell {

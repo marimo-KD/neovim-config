@@ -57,6 +57,22 @@
         "type": "github"
       }
     },
+    "lean-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1768954285,
+        "narHash": "sha256-FfYfDPQi0MUPnUV1bcHP7cpHdUkqcH9lHZS8ZNpWCso=",
+        "owner": "Julian",
+        "repo": "lean.nvim",
+        "rev": "68ad9a01b7da30213441016667ad3f946d080fe8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Julian",
+        "repo": "lean.nvim",
+        "type": "github"
+      }
+    },
     "mnw": {
       "locked": {
         "lastModified": 1768701608,
@@ -138,6 +154,7 @@
     "root": {
       "inputs": {
         "flake-parts": "flake-parts",
+        "lean-nvim": "lean-nvim",
         "nixpkgs": "nixpkgs",
         "nvf": "nvf",
         "treefmt-nix": "treefmt-nix"

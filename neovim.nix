@@ -1,7 +1,33 @@
+{ inputs, pkgs, ... }:
 {
   config.vim = rec {
     viAlias = true;
     vimAlias = true;
+    withRuby = false;
+    withNodeJs = false;
+    withPython3 = false;
+
+    options = {
+      autoindent = true;
+      shiftwidth = 0;
+      tabstop = 2;
+    };
+
+    lazy.plugins = {
+      "lean.nvim" = {
+        package = pkgs.vimUtils.buildVimPlugin {
+          name = "lean.nvim";
+          pname = "lean.nvim";
+          src = inputs.lean-nvim;
+          dependencies = [ pkgs.vimPlugins.plenary-nvim ];
+          nvimRequireCheck = "lean";
+        };
+        setupModule = "lean";
+        setupOpts = {
+          mappings = true;
+        };
+      };
+    };
 
     lsp = {
       enable = true;
@@ -43,8 +69,14 @@
     };
 
     autocomplete.blink-cmp.enable = true;
+    
+    treesitter = {
+      enable = true;
+      grammars = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+      context.enable = true;
+      textobjects.enable = true;
+    };
 
-    treesitter.context.enable = true;
 
     binds = {
       whichKey.enable = true;
@@ -72,7 +104,7 @@
         image-nvim = {
           enable = true;
           setupOpts = {
-            backend = "kitty";  
+            backend = "kitty";
           };
         };
       };

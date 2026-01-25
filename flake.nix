@@ -12,34 +12,41 @@
     };
   };
 
-  outputs = { nixpkgs, nvf, ...} @ inputs: inputs.flake-parts.lib.mkFlake {
-    inherit inputs;
-  } {
-    systems = [
-      "aarch64-darwin"
-      "aarch64-linux"
-      "x86_64-darwin"
-      "x86_64-linux"
-    ];
-    imports = [ inputs.treefmt-nix.flakeModule ];
-    perSystem = { pkgs, ... }: {
-      packages.default = (nvf.lib.neovimConfiguration {
-        inherit pkgs;
-        modules = [
-          ./neovim.nix
+  outputs =
+    { nixpkgs, nvf, ... }@inputs:
+    inputs.flake-parts.lib.mkFlake
+      {
+        inherit inputs;
+      }
+      {
+        systems = [
+          "aarch64-darwin"
+          "aarch64-linux"
+          "x86_64-darwin"
+          "x86_64-linux"
         ];
-      }).neovim;
-      devShells.default = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          nixd
-        ];
+        imports = [ inputs.treefmt-nix.flakeModule ];
+        perSystem =
+          { pkgs, ... }:
+          {
+            packages.default =
+              (nvf.lib.neovimConfiguration {
+                inherit pkgs;
+                modules = [
+                  ./neovim.nix
+                ];
+              }).neovim;
+            devShells.default = pkgs.mkShell {
+              buildInputs = with pkgs; [
+                nixd
+              ];
+            };
+            treefmt = {
+              projectRootFile = "flake.nix";
+              programs = {
+                nixfmt.enable = true;
+              };
+            };
+          };
       };
-      treefmt = {
-        projectRootFile = "flake.nix";
-        programs = {
-          nixfmt.enable = true;
-        };
-      };
-    };
-  };
 }

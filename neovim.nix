@@ -1,12 +1,12 @@
 {
-  config.vim = {
+  config.vim = rec {
     viAlias = true;
     vimAlias = true;
 
     lsp = {
       enable = true;
 
-      lspSignature.enable = !config.programs.nvf.autocomplete.blink-cmp.enable;
+      lspSignature.enable = !autocomplete.blink-cmp.enable;
     };
 
     debugger = {
@@ -37,7 +37,7 @@
 
     theme = {
       enable = true;
-      theme = "catppuccin";
+      name = "catppuccin";
       style = "mocha";
       transparent = false;
     };
@@ -47,7 +47,7 @@
     treesitter.context.enable = true;
 
     binds = {
-      WhichKey.enable = true;
+      whichKey.enable = true;
       cheatsheet.enable = true;
     };
 
@@ -69,7 +69,12 @@
         leap.enable = true;
       };
       images = {
-        image-nvim.enable = true;
+        image-nvim = {
+          enable = true;
+          setupOpts = {
+            backend = "kitty";  
+          };
+        };
       };
     };
 

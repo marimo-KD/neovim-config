@@ -1,5 +1,9 @@
 { inputs, pkgs, ... }:
 {
+  imports = [
+    ./fzf-lua.nix
+  ];
+
   config.vim = rec {
     viAlias = true;
     vimAlias = true;
@@ -12,6 +16,57 @@
       shiftwidth = 0;
       tabstop = 2;
     };
+
+    keymaps = [
+      {
+        key = "<C-f>";
+        mode = "i";
+        silent = true;
+        action = "<Right>";
+      }
+      {
+        key = "<C-b>";
+        mode = "i";
+        silent = true;
+        action = "<Left>";
+      }
+      {
+        key = "<C-n>";
+        mode = "i";
+        silent = true;
+        action = "<Down>";
+      }
+      {
+        key = "<C-p>";
+        mode = "i";
+        silent = true;
+        action = "<Up>";
+      }
+      {
+        key = "<C-a>";
+        mode = "i";
+        silent = true;
+        action = "<Home>";
+      }
+      {
+        key = "<C-e>";
+        mode = "i";
+        silent = true;
+        action = "<End>";
+      }
+      {
+        key = "gl";
+        mode = "n";
+        silent = true;
+        action = "$";
+      }
+      {
+        key = "gh";
+        mode = "n";
+        silent = true;
+        action = "^";
+      }
+    ];
 
     lazy.plugins = {
       "lean.nvim" = {
@@ -29,28 +84,32 @@
       };
     };
 
-    lsp = {
+    treesitter = {
       enable = true;
-
-      lspSignature.enable = !autocomplete.blink-cmp.enable;
+      grammars = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+      context.enable = true;
+      textobjects.enable = true;
     };
 
-    debugger = {
-      nvim-dap = {
-        enable = true;
-        ui.enable = true;
-      };
+    lsp = {
+      enable = true;
+      lspSignature.enable = !autocomplete.blink-cmp.enable;
+      servers.nixd.cmd = pkgs.lib.mkForce [ "nixd" ];
     };
 
     languages = {
       enableFormat = true;
       enableTreesitter = true;
       enableExtraDiagnostics = true;
+
+      nix = {
+        enable = true;
+        lsp.servers = ["nixd"];
+      };
     };
 
+
     visuals = {
-      nvim-web-devicons.enable = true;
-      nvim-cursorline.enable = true;
       cinnamon-nvim.enable = true;
       fidget-nvim.enable = true;
       indent-blankline.enable = true;
@@ -70,43 +129,34 @@
 
     autocomplete.blink-cmp.enable = true;
     
-    treesitter = {
-      enable = true;
-      grammars = pkgs.vimPlugins.nvim-treesitter.allGrammars;
-      context.enable = true;
-      textobjects.enable = true;
+    mini = {
+      # Text editing
+      ai.enable = true;
+      pairs.enable = true;
+      surround.enable = true;
+
+      # General workflow
+      extra.enable = true;
+      git.enable = true;
+      jump.enable = true;
+      jump2d.enable = true;
+      pick.enable = true;
+
+      # Appearance
+      cursorword.enable = true;
+      icons.enable = true;
+      notify.enable = true;
     };
 
 
     binds = {
       whichKey.enable = true;
-      cheatsheet.enable = true;
     };
 
-    telescope.enable = true;
-
-    git = {
+    utility.images.image-nvim = {
       enable = true;
-      gitsigns.enable = true;
-      gitsigns.codeActions.enable = false;
-      neogit.enable = true;
-    };
-
-    notify = {
-      nvim-notify.enable = true;
-    };
-
-    utility = {
-      motion = {
-        leap.enable = true;
-      };
-      images = {
-        image-nvim = {
-          enable = true;
-          setupOpts = {
-            backend = "kitty";
-          };
-        };
+      setupOpts = {
+        backend = "kitty";
       };
     };
 

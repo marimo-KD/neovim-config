@@ -28,15 +28,15 @@
 
     termguicolors = true;
 
-    signcolumns = "yes";
+    signcolumn = "yes";
 
     mouse = "a";
 
-    ignorecase = "true";
-    smartcase = "true";
+    ignorecase = true;
+    smartcase = true;
 
-    splitright = "true";
-    splitbelow = "true";
+    splitright = true;
+    splitbelow = true;
 
     list = true;
     listchars.__raw = "{ tab = '» ', trail = '·', nbsp = '␣' }";

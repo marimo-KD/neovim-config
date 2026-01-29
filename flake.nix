@@ -1,8 +1,8 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nvf = {
-      url = "github:notashelf/nvf";
+      url = "github:nix-community/nixvim/nixos-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     lean-nvim = {
@@ -21,8 +21,8 @@
   };
 
   outputs =
-    { nixpkgs, nvf, ... }@inputs:
-    inputs.flake-parts.lib.mkFlake
+    { flake-parts, nixvim, ... }@inputs:
+    flake-parts.lib.mkFlake
       {
         inherit inputs;
       }
@@ -35,15 +35,22 @@
         ];
         imports = [ inputs.treefmt-nix.flakeModule ];
         perSystem =
-          { pkgs, ... }:
+          { system, pkgs, ... }:
+          let
+            nixvimLib = nixvim.lib.${system};
+            nixvim' = nixvim.legacyPackages.${system};
+            nixvimModule = {
+              inherit system;
+              module = import ./neovim.nix;
+              extraSpecialArgs = {
+                inherit inputs pkgs;
+              };
+            };
+            nvim = nixvim'.makeNixvimWithModule nixvimModule;
+          in
           {
-            packages.default =
-              (nvf.lib.neovimConfiguration {
-                inherit pkgs;
-                modules = [
-                  (import ./neovim.nix { inherit inputs pkgs; })
-                ];
-              }).neovim;
+            checks.default = nixvimLib.check.mkTestDerivationFromNixvimModule nixvimModule;
+            packages.default = nvim;
             devShells.default = pkgs.mkShell {
               buildInputs = with pkgs; [
                 nixd

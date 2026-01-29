@@ -1,120 +1,69 @@
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, config, ... }:
 {
-  config.vim = rec {
-    viAlias = true;
-    vimAlias = true;
-    withRuby = false;
-    withNodeJs = false;
-    withPython3 = false;
+  enableMan = true;
+  withNodeJs = false;
+  withPerl = false;
+  withPython3 = false;
+  withRuby = false;
 
-    options = {
-      autoindent = true;
-      shiftwidth = 0;
-      tabstop = 2;
-    };
+  clipboard.providers = {
+    pbcopy.enable = pkgs.stdenv.isDarwin;
+    wl-copy.enable = pkgs.stdenv.isLinux;
+  };
 
-    lazy.plugins = {
-      "lean.nvim" = {
-        package = pkgs.vimUtils.buildVimPlugin {
-          name = "lean.nvim";
-          pname = "lean.nvim";
-          src = inputs.lean-nvim;
-          dependencies = [ pkgs.vimPlugins.plenary-nvim ];
-          nvimRequireCheck = "lean";
-        };
-        setupModule = "lean";
-        setupOpts = {
-          mappings = true;
-        };
-      };
-    };
-
-    lsp = {
+  performance = {
+    byteCompileLua = {
       enable = true;
-
-      lspSignature.enable = !autocomplete.blink-cmp.enable;
+      nvimRuntime = true;
+      configs = true;
+      plugins = true;
     };
+    combinePlugins.enable = false;
+  };
+  
+  globalOpts = {
+    number = true;
+    relativenumber = true;
 
-    debugger = {
-      nvim-dap = {
-        enable = true;
-        ui.enable = true;
-      };
-    };
+    termguicolors = true;
 
-    languages = {
-      enableFormat = true;
-      enableTreesitter = true;
-      enableExtraDiagnostics = true;
-    };
+    signcolumns = "yes";
 
-    visuals = {
-      nvim-web-devicons.enable = true;
-      nvim-cursorline.enable = true;
-      cinnamon-nvim.enable = true;
-      fidget-nvim.enable = true;
-      indent-blankline.enable = true;
-    };
+    mouse = "a";
 
-    statusline.lualine = {
-      enable = true;
-      theme = "catppuccin";
-    };
+    ignorecase = "true";
+    smartcase = "true";
 
-    theme = {
-      enable = true;
-      name = "catppuccin";
-      style = "mocha";
-      transparent = false;
-    };
+    splitright = "true";
+    splitbelow = "true";
 
-    autocomplete.blink-cmp.enable = true;
+    list = true;
+    listchars.__raw = "{ tab = '» ', trail = '·', nbsp = '␣' }";
+
+    expandtab = true;
+    tabstop = 2;
+    shiftwidth = 2;
+    softtabstop = 0;
+    smarttab = true;
+
+    encoding = "utf-8";
+    fileencoding = "utf-8";
+
+    undofile = true;
+    swapfile = true;
+    backup = false;
+    autoread = true;
+
+    scrolloff = 5;
+  };
+
+  diagnostics = {
+    update_in_insert = true;
+    severity_sort = true;
+    float.border = "rounded";
+  };
+
+  plugins = {
     
-    treesitter = {
-      enable = true;
-      grammars = pkgs.vimPlugins.nvim-treesitter.allGrammars;
-      context.enable = true;
-      textobjects.enable = true;
-    };
-
-
-    binds = {
-      whichKey.enable = true;
-      cheatsheet.enable = true;
-    };
-
-    telescope.enable = true;
-
-    git = {
-      enable = true;
-      gitsigns.enable = true;
-      gitsigns.codeActions.enable = false;
-      neogit.enable = true;
-    };
-
-    notify = {
-      nvim-notify.enable = true;
-    };
-
-    utility = {
-      motion = {
-        leap.enable = true;
-      };
-      images = {
-        image-nvim = {
-          enable = true;
-          setupOpts = {
-            backend = "kitty";
-          };
-        };
-      };
-    };
-
-    ui = {
-      borders.enable = true;
-      noice.enable = true;
-      colorizer.enable = true;
-      fastaction.enable = true;
-    };
   };
 }

@@ -2,6 +2,7 @@
 {
   imports = [
     ./fzf-lua.nix
+    ./image-nvim.nix
   ];
 
   config.vim = rec {
@@ -81,14 +82,13 @@
         setupOpts = {
           mappings = true;
         };
+        event = ["BufReadPre *.lean" "BufNewFile *.lean"];
       };
     };
 
     treesitter = {
       enable = true;
       grammars = pkgs.vimPlugins.nvim-treesitter.allGrammars;
-      context.enable = true;
-      textobjects.enable = true;
     };
 
     lsp = {
@@ -107,7 +107,6 @@
         lsp.servers = ["nixd"];
       };
     };
-
 
     visuals = {
       cinnamon-nvim.enable = true;
@@ -136,11 +135,9 @@
       surround.enable = true;
 
       # General workflow
-      extra.enable = true;
       git.enable = true;
       jump.enable = true;
       jump2d.enable = true;
-      pick.enable = true;
 
       # Appearance
       cursorword.enable = true;
@@ -148,16 +145,8 @@
       notify.enable = true;
     };
 
-
     binds = {
       whichKey.enable = true;
-    };
-
-    utility.images.image-nvim = {
-      enable = true;
-      setupOpts = {
-        backend = "kitty";
-      };
     };
 
     ui = {

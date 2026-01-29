@@ -84,6 +84,16 @@
         };
         event = ["BufReadPre *.lean" "BufNewFile *.lean"];
       };
+      "blink.indent" = {
+        package = pkgs.vimUtils.buildVimPlugin {
+          name = "blink.indent";
+          pname = "blink.indent";
+          src = inputs.blink-indent;
+          nvimRequireCheck = "blink.indent";
+        };
+        setupModule = "blink.indent";
+        event = ["BufReadPost" "BufNewFile"];
+      };
     };
 
     treesitter = {
@@ -98,9 +108,7 @@
     };
 
     languages = {
-      enableFormat = true;
       enableTreesitter = true;
-      enableExtraDiagnostics = true;
 
       nix = {
         enable = true;
@@ -109,9 +117,7 @@
     };
 
     visuals = {
-      cinnamon-nvim.enable = true;
       fidget-nvim.enable = true;
-      indent-blankline.enable = true;
     };
 
     statusline.lualine = {
@@ -135,9 +141,8 @@
       surround.enable = true;
 
       # General workflow
+      diff.enable = true;
       git.enable = true;
-      jump.enable = true;
-      jump2d.enable = true;
 
       # Appearance
       cursorword.enable = true;
@@ -145,9 +150,9 @@
       notify.enable = true;
     };
 
-    binds = {
-      whichKey.enable = true;
-    };
+    binds.whichKey.enable = true;
+
+    utility.motion.flash-nvim.enable = true;
 
     ui = {
       borders.enable = true;

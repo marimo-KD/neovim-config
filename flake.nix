@@ -9,6 +9,10 @@
       url = "github:Julian/lean.nvim";
       flake = false;
     };
+    blink-indent = {
+      url = "github:saghen/blink.indent";
+      flake = false;
+    };
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";

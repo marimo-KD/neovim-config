@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "blink-indent": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1768268411,
+        "narHash": "sha256-SS66JZFCX8viYxYaObASlwtrG5h7yHbVvRBVXBNXkng=",
+        "owner": "saghen",
+        "repo": "blink.indent",
+        "rev": "9c80820ca77218a8d28e70075d6f44a1609911fe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "saghen",
+        "repo": "blink.indent",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -153,6 +169,7 @@
     },
     "root": {
       "inputs": {
+        "blink-indent": "blink-indent",
         "flake-parts": "flake-parts",
         "lean-nvim": "lean-nvim",
         "nixpkgs": "nixpkgs",

@@ -13,5 +13,6 @@
         ft = ["markdown" "typst" "html" "css"];
       };
     };
+    luaPackages = ["magick"];
   };
 }

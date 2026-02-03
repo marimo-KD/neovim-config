@@ -105,6 +105,7 @@
       enable = true;
       lspSignature.enable = !autocomplete.blink-cmp.enable;
       servers.nixd.cmd = pkgs.lib.mkForce [ "nixd" ];
+      servers.tinymist.cmd = pkgs.lib.mkForce [ "tinymist" ];
     };
 
     languages = {
@@ -113,6 +114,11 @@
       nix = {
         enable = true;
         lsp.servers = ["nixd"];
+      };
+
+      typst = {
+        enable = true;
+        lsp.servers = ["tinymist"];
       };
     };
 

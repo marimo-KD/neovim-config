@@ -1,0 +1,28 @@
+{
+  imports = [
+    ./colorscheme.nix
+    ./global.nix
+    ./clipboard.nix
+    ./completion.nix
+    ./picker.nix
+    ./appearance.nix
+    ./languages
+  ];
+
+  enableMan = false;
+  withPython3 = false;
+  withRuby = false;
+  luaLoader.enable = true;
+  dependencies.python3.enable = false;
+  dependencies.gcc.enable = false;
+  plugins.lz-n.enable = true;
+  performance = {
+    byteCompileLua = {
+      enable = true;
+      nvimRuntime = true;
+      configs = true;
+      plugins = true;
+    };
+    combinePlugins.enable = false;
+  };
+}

@@ -1,19 +1,11 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nvf = {
-      url = "github:notashelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    nixvim = {
+      url = "github:nix-community/nixvim/nixos-26.05";
+      # inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.flake-parts.follows = "flake-parts";
     };
-    lean-nvim = {
-      url = "github:Julian/lean.nvim";
-      flake = false;
-    };
-    blink-indent = {
-      url = "github:saghen/blink.indent";
-      flake = false;
-    };
-
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
@@ -25,40 +17,35 @@
   };
 
   outputs =
-    { nixpkgs, nvf, ... }@inputs:
-    inputs.flake-parts.lib.mkFlake
-      {
-        inherit inputs;
-      }
-      {
-        systems = [
-          "aarch64-darwin"
-          "aarch64-linux"
-          "x86_64-darwin"
-          "x86_64-linux"
-        ];
-        imports = [ inputs.treefmt-nix.flakeModule ];
-        perSystem =
-          { pkgs, ... }:
-          {
-            packages.default =
-              (nvf.lib.neovimConfiguration {
-                inherit pkgs;
-                modules = [
-                  (import ./neovim.nix { inherit inputs pkgs; })
-                ];
-              }).neovim;
-            devShells.default = pkgs.mkShell {
-              buildInputs = with pkgs; [
-                nixd
-              ];
-            };
-            treefmt = {
-              projectRootFile = "flake.nix";
-              programs = {
-                nixfmt.enable = true;
-              };
+    { flake-parts, nixvim, ... }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "x86_64-linux"
+      ];
+      imports = [ inputs.treefmt-nix.flakeModule ];
+      perSystem =
+        { system, pkgs, ... }:
+        let
+          configuration = nixvim.lib.evalNixvim {
+            inherit system;
+            modules = [ ./config ];
+            extraSpecialArgs = {
+              
             };
           };
-      };
+        in
+        {
+          checks.default = configuration.config.build.test;
+          packages.default = configuration.config.build.package;
+          treefmt = {
+            projectRootFile = "flake.nix";
+            programs = {
+              nixfmt.enable = true;
+            };
+          };
+        };
+    };
 }

@@ -40,11 +40,6 @@
         {
           checks.default = configuration.config.build.test;
           packages.default = configuration.config.build.package;
-          devShells.default = pkgs.mkShell {
-            buildInputs = with pkgs; [
-              nixd
-            ];
-          };
           treefmt = {
             projectRootFile = "flake.nix";
             programs = {

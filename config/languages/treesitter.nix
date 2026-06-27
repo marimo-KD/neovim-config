@@ -6,12 +6,15 @@
     folding.enable = false;
     grammarPackages = with config.plugins.treesitter.package.builtGrammars; [
       bash
+      julia
       json
       lua 
       markdown
       nix
+      ocaml
       regex 
       toml
+      typst
       vim
       vimdoc
       yaml

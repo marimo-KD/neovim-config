@@ -1,4 +1,7 @@
 {
+  globals = {
+    mapleader = " ";
+  };
   globalOpts = {
     number = true;
     relativenumber = true;

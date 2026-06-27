@@ -8,4 +8,5 @@
     enable = true;
     lazyLoad.settings.ft = ["lean"];
   };
+  dependencies.lean.enable = false;
 }

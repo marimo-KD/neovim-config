@@ -8,6 +8,8 @@
           preselect = false;
           auto_insert = true;
         };
+        keymap.preset = "super-tab";
+        signature.enabled = true;
       };
     };
 

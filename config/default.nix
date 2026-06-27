@@ -4,6 +4,8 @@
     ./global.nix
     ./clipboard.nix
     ./completion.nix
+    ./picker.nix
+    ./appearance.nix
     ./languages
   ];
 
@@ -11,6 +13,8 @@
   withPython3 = false;
   withRuby = false;
   luaLoader.enable = true;
+  dependencies.python3.enable = false;
+  dependencies.gcc.enable = false;
   plugins.lz-n.enable = true;
   performance = {
     byteCompileLua = {

@@ -8,7 +8,7 @@
           preselect = false;
           auto_insert = true;
         };
-        keymap.preset = "super-tab";
+        keymap.preset = "default";
         signature.enabled = true;
       };
     };

@@ -12,6 +12,9 @@
   enableMan = false;
   withPython3 = false;
   withRuby = false;
+  vimAlias = true;
+  viAlias = true;
+
   luaLoader.enable = true;
   dependencies.python3.enable = false;
   dependencies.gcc.enable = false;

@@ -1,0 +1,14 @@
+{}: {
+  colorscheme = "catppuccin";
+  colorschemes.catppuccin = {
+    enable = true;
+    settings = {
+      flavour = "mocha";
+      integrations = {
+        blink_cmp = {
+          style = "bordered";
+        };
+      };
+    };
+  };
+}

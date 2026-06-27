@@ -1,7 +1,7 @@
 {
   imports = [
     ./colorscheme.nix
-    ./global.nix
+    ./options.nix
     ./clipboard.nix
     ./completion.nix
     ./picker.nix
